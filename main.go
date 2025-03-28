@@ -1,14 +1,35 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
+	"os"
 	"strings"
 )
 
 func main() {
 
-	words := []string{"golang", "java", "php", "js"}
+	fileContent, err := os.ReadFile("words.json")
+	if err != nil {
+		fmt.Println("Error reading file")
+		return
+	}
+
+	var words []string
+	err = json.Unmarshal(fileContent, &words)
+	if err != nil {
+		fmt.Println("Error unmarshalling file")
+		return
+	}
+
+	if len(words) == 0 {
+		fmt.Println("No words found")
+		return
+	}
+
+	// انتخاب تصادفی کلمه از لیست
+
 	word := words[rand.Intn(len(words))] // get a random word from the list
 	lives := 2 * len(words)              // number of lives
 
